@@ -74,10 +74,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.comments',
-    'voting',
     'gravatar',
     'south',
     'base',
+    'qhonuskan_votes',
 
     # the important point is...
     'djangovoice'

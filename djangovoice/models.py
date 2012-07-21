@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.utils.translation import pgettext
 from django.utils.translation import ugettext_lazy as _
 
+from qhonuskan_votes.models import VotesField
+from qhonuskan_votes.models import ObjectsWithScoresManager
+
 STATUS_CHOICES = (
     ('open', pgettext('status', "Open")),
     ('closed', pgettext('status', "Closed")),
@@ -74,6 +77,8 @@ class Feedback(models.Model):
     status = models.ForeignKey(Status, verbose_name=_('Status'))
     duplicate = models.ForeignKey(
         'self', null=True, blank=True, verbose_name=_("Duplicate"))
+    votes = VotesField()
+    objects = ObjectsWithScoresManager()
 
     def save(self, **kwargs):
         try:
