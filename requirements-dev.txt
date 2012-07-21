@@ -1,3 +1,4 @@
 -r requirements.txt
 
 docutils>=0.9.1
+PyYAML>=3.10
