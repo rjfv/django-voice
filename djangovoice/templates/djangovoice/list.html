@@ -1,9 +1,8 @@
 {% extends "djangovoice/feedback_base.html" %}
 {% load i18n %}
 {% load djangovoice_tags qhonuskan_votes gravatar comments %}
+
 {% block djangovoice_scripts %}
-    <link type="text/css" rel="stylesheet" href="{{STATIC_URL}}default_buttons.css">
-    <script type="application/javascript" src="{{STATIC_URL}}djangovoice/js/csrf_fix.js"></script>
     {% voting_script %}
 {% endblock %}
 

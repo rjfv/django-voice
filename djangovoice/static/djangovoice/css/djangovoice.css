@@ -121,21 +121,54 @@ footer a {
     margin-top: 3px;
 }
 
-#feedback td.votes {
-    font-size: 32px;
-    width: 40px;
-    font-weight: bold;
-}
 
-#feedback td.votes div {
-    text-align: center;
-    padding: 15px 7px;
-    min-width: 35px;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-    background-color: #f2f2f2;
+div.vote_buttons{
+    overflow:auto;
+    border-radius:3px;
+    background:#ddd;
+    margin:0;
+    padding:0 4px 4px 4px;
+    width: 24px;
 }
-
+div.vote_buttons a.upVote,div.vote_buttons a.downVote,div.vote_buttons div.score{
+    height:10px;
+}
+div.vote_buttons a.upVote{
+    width:0;
+    height:0;
+    border-left:12px solid transparent;
+    border-right:12px solid transparent;
+    border-bottom:12px solid #888;
+    margin:4px 0 2px 0;
+    float:left;
+}
+div.vote_buttons a.downVote{
+    width:0;
+    height:0;
+    border-left:12px solid transparent;
+    border-right:12px solid transparent;
+    border-top:12px solid #888;
+    margin:2px 0 0 0;
+    float:right;
+}
+div.vote_buttons a.upVote.voted{
+    border-bottom-color:#222;
+}
+div.vote_buttons a.downVote.voted{
+    border-top-color:#222;
+}
+div.vote_buttons div.score{
+    text-align:center;
+    vertical-align:center;
+    font-size:13px;
+    font-weight:bold;
+    color:#888;
+    border-radius:2px;
+    margin:0 0;
+    padding:0 0 5px 0;
+    display:block;
+    clear:both;
+}
 
 #feedback td.feedback-private {
     color: #ff0000;
@@ -219,41 +252,6 @@ p.meta {
 
 
 /**** detail ****/
-
-
-
-#feedback div.votes {
-    font-size: 32px;
-    font-weight: bold;
-    text-align: center;
-    padding: 15px 7px 10px 7px;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-    background-color: #f2f2f2;
-    float: left;
-    margin-right: 25px;
-}
-
-#feedback p.num-votes {
-    font-size: 10px;
-    text-align: center;
-    color: #747474;
-    margin: 5px 0 0 0;
-}
-
-#feedback #vote-down {
-    margin-right: 2px;
-}
-
-#feedback #vote-up, #feedback #vote-down {
-    float: left;
-}
-
-#feedback #vote-up input, #feedback #vote-down input {
-    padding: 5px;
-    background-color: #b1b8bb;
-    text-shadow: 1px 1px 0 #7a868b;
-}
 
 #feedback-detail-heading {
     margin: 0;
@@ -359,15 +357,6 @@ table.list td.title a {
 
 #id_honeypot {
     display: none;
-}
-
-form.vote-button {
-    margin: 0;
-}
-
-form.vote-button input.button {
-    -moz-border-radius: 11px;
-    -webkit-border-radius: 11px;
 }
 
 form table {
