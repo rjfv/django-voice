@@ -45,7 +45,7 @@ To satisfy dependencies listed in REQUIREMENTS you can simply run this command:
 'pip' will automatically download and install dependencies required for django-voice. Next step is activating helper applications to run.
 
 * Activate django's comment system. (https://docs.djangoproject.com/en/dev/ref/contrib/comments/)
-* Add django-gravatar and django-voting to your INSTALLED_APPS in settings file.
+* Add django-gravatar and qhonuskan-votes to your INSTALLED_APPS in settings file.
 * Add comments and django-voice to your url configration.
 * Create at least one Type and Status either through the admin or fixtures.
 
@@ -55,7 +55,7 @@ After these steps, your INSTALLED_APPS in settings.py must be seen like this:
 
   INSTALLED_APPS = (
       ...
-      'voting',
+      'qhonuskan_votes',
       'gravatar',
       'djangovoice'
   )
