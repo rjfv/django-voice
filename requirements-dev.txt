@@ -1,6 +1,6 @@
 -r requirements.txt
 
 docutils>=0.9.1
-ipython==0.13
+ipython>=0.13
 PyYAML>=3.10
 
