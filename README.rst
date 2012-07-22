@@ -96,5 +96,5 @@ Contributors:
 
  * Ross Poulton http://rossp.org/
  * Gökmen Görgen http://gokmengorgen.net/
- * Mirat Can Bayrak http://miratcanbayrak.blogspot.com/
+ * Mirat Can Bayrak http://miratcan.tumblr.com/
  * Simon Ye https://github.com/yesimon
