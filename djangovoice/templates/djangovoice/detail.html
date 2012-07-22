@@ -4,6 +4,10 @@
 
 {% block title %}{% trans "Feedback" %}{% endblock %}
 
+{% block djangovoice_scripts %}
+    {% voting_script %}
+{% endblock %}
+
 {% block actions %}
 {% if user.is_staff or user == feedback.user %}
 <li><a href="{% url 'djangovoice_edit' feedback.id %}">{% trans "Edit" %} &rarr;</a></li>
@@ -18,28 +22,8 @@
 <div class="clear"></div>
 {% endif %}
 
-<div class="votes">
-    {% score_for_object feedback as score %}
-    {{ score.score|default:0 }}
-    <p class="num-votes">
-        {% blocktrans %}
-        from {{ score.num_votes }} Vote{{ score.num_votes|pluralize }}
-        {% endblocktrans %}
-    </p>
-    <div class="clear"></div>
-    <div id="vote-down">
-        <form class="vote-button" method="post" action="{{ feedback.get_absolute_url }}down/">
-            {% csrf_token %}
-            <input class="button" type="submit" name="up" value="&minus;1">
-        </form>
-    </div>
-    <div id="vote-up">
-        <form class="vote-button" method="post" action="{{ feedback.get_absolute_url }}up/">
-            {% csrf_token %}
-            <input class="button" type="submit" name="down" value="+1">
-        </form>
-    </div>
-    <div class="clear"></div>
+<div style="float:left; margin: 20px 20px 0 0;">
+    {% vote_buttons_for feedback %}
 </div>
 
 <h1 id="feedback-detail-heading">
