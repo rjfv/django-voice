@@ -122,6 +122,10 @@ footer a {
 }
 
 
+td.votes, td.status {
+    width: 40px;
+}
+
 div.vote_buttons{
     overflow:auto;
     border-radius:3px;
