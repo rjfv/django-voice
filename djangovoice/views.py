@@ -6,18 +6,11 @@ from django.http import HttpResponseNotFound
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
-
-from django.views.generic.base import TemplateView
-from django.views.generic.edit import DeleteView
-from django.views.generic.edit import FormView
-from django.views.generic.detail import DetailView
-
+from django.views.generic import DeleteView, DetailView, FormView, ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-
 from djangovoice.models import Feedback, Type
 from djangovoice.forms import WidgetForm, EditForm
-from djangovoice.utils import paginate
 
 
 def current_site_context(method):
@@ -57,58 +50,80 @@ class FeedbackDetailView(DetailView):
         return super(FeedbackDetailView, self).get(request, *args, **kwargs)
 
 
-# FIXME: Can not we use ListView?
-class FeedbackListView(TemplateView):
+class FeedbackListView(ListView):
 
     template_name = 'djangovoice/list.html'
+    model = Feedback
+    paginate_by = 10
+
+    def get_queryset(self):
+        f_list = self.kwargs.get('list', 'open')
+        f_type = self.kwargs.get('type', 'all')
+        f_status= self.kwargs.get('status', 'all')
+        f_filters = {}
+
+        # add filter for list value, and define title.
+        if f_list in ['open', 'closed']:
+            f_filters.update(dict(status__status=f_list))
+
+        elif f_list == 'mine':
+            f_filters.update(user=self.request.user)
+
+        # add filter for feedback type.
+        if f_type != 'all':
+            f_filters.update(dict(type__slug=f_type))
+
+        # add filter for feedback status.
+        if f_status != 'all':
+            f_filters.update(dict(status__slug=f_status))
+
+        # If user is checking his own feedback, do not filter by private
+        if not self.request.user.is_staff and f_list != 'mine':
+            f_filters.update(dict(private=False))
+
+        queryset = self.model.objects.filter(**f_filters)
+        return queryset
 
     @current_site_context
     def get_context_data(self, **kwargs):
-        context = super(FeedbackListView, self).get_context_data(**kwargs)
-        feedback = Feedback.objects.all().order_by('-created')
-        feedback_list = kwargs.get('list', 'open')
-        feedback_type = kwargs.get('type', 'all')
-        feedback_status = kwargs.get('status', 'all')
+        f_list = kwargs.get('list', 'open')
+        f_type = kwargs.get('type', 'all')
+        f_status= kwargs.get('status', 'all')
 
-        if feedback_list == 'open':
+        title = _("Feedback")
+
+        if f_list == 'open':
             title = _("Open Feedback")
-            feedback = feedback.filter(status__status='open')
-        elif feedback_list == 'closed':
+
+        elif f_list == 'closed':
             title = _("Closed Feedback")
-            feedback = feedback.filter(status__status='closed')
-        elif feedback_list == 'mine':
+
+        elif f_list == 'mine':
             title = _("My Feedback")
-            feedback = feedback.filter(user=self.request.user)
-        else:
-            title = _("Feedback")
 
-        if feedback_type != 'all':
-            feedback = feedback.filter(type__slug=feedback_type)
+        # update context data
+        data = super(FeedbackListView, self).get_context_data(**kwargs)
 
-        if feedback_status != 'all':
-            feedback = feedback.filter(status__slug=feedback_status)
-
-        # If user is checking his own feedback, do not filter by private
-        if not self.request.user.is_staff and feedback_list != 'mine':
-            feedback = feedback.filter(private=False)
-
-        feedback_page = paginate(feedback, 10, self.request)
-
-        context.update({
-            'feedback_list': feedback_page.object_list,
-            'pagination': feedback_page,
-            'list': feedback_list,
-            'status': feedback_status,
-            'type': feedback_type,
-            'navigation_active': feedback_list,
+        data.update({
+            'list': f_list,
+            'status': f_status,
+            'type': f_type,
+            'navigation_active': f_list,
             'title': title
         })
 
-        return context
+        return data
 
     def get(self, request, *args, **kwargs):
-        if kwargs.get('list') == 'mine' and not request.user.is_authenticated():
-            return redirect(reverse('django.contrib.auth.views.login') + '?next=%s' % request.path)
+        f_list = kwargs.get('list')
+
+        if f_list == 'mine' and not request.user.is_authenticated():
+            to_url = (
+                reverse('django.contrib.auth.views.login') +
+                '?next=%s' % request.path)
+
+            return redirect(to_url)
+
         return super(FeedbackListView, self).get(request, *args, **kwargs)
 
 
