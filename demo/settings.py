@@ -75,12 +75,10 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.comments',
     'gravatar',
+    'qhonuskan_votes',
+    'djangovoice',
     'south',
     'base',
-    'qhonuskan_votes',
-
-    # the important point is...
-    'djangovoice'
 )
 
 # A sample logging configuration. The only tangible logging
