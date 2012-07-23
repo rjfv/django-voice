@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import pgettext
 from django.utils.translation import ugettext_lazy as _
-
 from qhonuskan_votes.models import VotesField
 from qhonuskan_votes.models import ObjectsWithScoresManager
 
@@ -67,11 +66,12 @@ class Feedback(models.Model):
             "view and respond to this"))
     user = models.ForeignKey(
         User, blank=True, null=True, verbose_name=_("User"))
-    email = models.EmailField(blank=True, null=True, verbose_name=_('E-mail'),
-        help_text=_('You must provide your e-mail so we can answer to you. '\
-                    'Alternatively you can bookmark next page and check'\
-                    'out for an answer later.')
-        )
+    email = models.EmailField(
+        blank=True, null=True, verbose_name=_('E-mail'),
+        help_text=_(
+            "You must provide your e-mail so we can answer to you. "
+            "Alternatively you can bookmark next page and check out for an "
+            "answer later."))
     slug = models.SlugField(max_length=10, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
     status = models.ForeignKey(Status, verbose_name=_('Status'))
@@ -105,3 +105,5 @@ class Feedback(models.Model):
     class Meta:
         verbose_name = _("feedback")
         verbose_name_plural = _("feedback")
+        ordering = ('-created',)
+        get_latest_by = 'created'
