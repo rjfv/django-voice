@@ -8,10 +8,10 @@
 {% block content %}
   <h1>{{ title }}</h1>
 
-  {% if feedback_list %}
+  {% if object_list %}
 
     <table class="list">
-      {% for feedback in feedback_list %}
+      {% for feedback in object_list %}
         {% get_comment_count for feedback as comment_count %}
 
         <tr>
