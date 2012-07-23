@@ -1,28 +1,37 @@
-{% load djangovoice_widget from djangovoice_tags %}
+{% extends "base.html" %}
+
 {% load i18n %}
+{% load url from future %}
+{% load djangovoice_widget from djangovoice_tags %}
 
-{% get_current_language as current_language %}
+{% block body %}
+  {% get_current_language as current_language %}
 
-<body style="background-color: #eee">
-  <h1 style="text-align:center">Say hello to my App!</h1>
-  <p style="text-align:center;">
-    Want to give feedback for my app? Then check out <a href="{% url djangovoice_home %}">feedback</a>.
-  </p>
-  {% djangovoice_widget %}
-</body>
+  <body>
+    <h1>{% trans "Say hello to my App!" %}</h1>
+    <p>
+      {% url "djangovoice_home" as djangovoice_home %}
+      {% blocktrans %}
+        Want to give feedback for my app? Then check out <a href="{{ djangovoice_home }}">feedback</a>.
+      {% endblocktrans %}
+    </p>
+    {% djangovoice_widget %}
 
-<form action="/i18n/setlang/" method="POST">
-  {% csrf_token %}
-  <input name="next" type="hidden" value="/" />
+    <form action="/i18n/setlang/" method="POST">
+      {% csrf_token %}
+      <input name="next" type="hidden" value="/" />
 
-  <select name="language">
-    {% get_language_info_list for LANGUAGES as languages %}
-    {% for language in languages %}
-      <option value="{{ language.code }}"{% if language.code == current_language %} selected{% endif %}>
-        {{ language.name_local }} ({{ language.code }})
-      </option>
-    {% endfor %}
-  </select>
+      <select name="language">
+        {% get_language_info_list for LANGUAGES as languages %}
+        {% for language in languages %}
+          <option value="{{ language.code }}"{% if language.code == current_language %} selected{% endif %}>
+            {{ language.name_local }} ({{ language.code }})
+          </option>
+        {% endfor %}
+      </select>
 
-  <input type="submit" value="Go" />
-</form>
+      <input type="submit" value="Go" />
+    </form>
+
+  </body>
+{% endblock %}
