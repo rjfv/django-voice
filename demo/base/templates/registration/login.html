@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load trans from i18n %}
+{% load url from future %}
+
+{% block body %}
+  <p>{% trans "It's simple login form, not part of django-voice." %}</p>
+
+  <form action="{% url 'django.contrib.auth.views.login' %}" method="POST">
+    {% csrf_token %}
+
+    {{ form.as_ul }}
+
+    <input type="submit" value="{% trans "Login" %}" />
+    <input type="hidden" name="next" value="{% url 'djangovoice_list' list='all' %}" />
+  </form>
+{% endblock %}
