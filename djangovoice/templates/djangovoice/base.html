@@ -42,7 +42,7 @@
               <li><a href="{% url 'djangovoice_list' list='mine' %}">{% trans "Mine" %}</a></li>
               <li class="feed-link">
                 <a href="{% url 'feeds_latest' %}" title="{% trans "Subscribe to the feedback RSS feed" %}">
-                  <img src="{{ STATIC_URL }}djangovoice/images/rss.png" alt="RSS" />
+                  <img src="{{ STATIC_URL }}djangovoice/img/rss.png" alt="RSS" />
                 </a>
               </li>
             {% endblock %}
@@ -124,7 +124,7 @@
     {% block scripts %}
       <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
       <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}djangovoice/js/libs/jquery-1.7.2.min.js"><\/script>')</script>
-      <script src="{{ STATIC_URL }}djangovoice/bootstrap/js/bootstrap.min.js"></script>
+      <script src="{{ STATIC_URL }}djangovoice/js/libs/bootstrap.min.js"></script>
     {% endblock %}
   </body>
 </html>
