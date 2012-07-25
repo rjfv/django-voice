@@ -17,13 +17,17 @@ def current_site_context(method):
     """Adds the current_site in template context variable 'params'."""
     def wrapped(self, **kwargs):
         context = method(self, **kwargs)
+
         if Site._meta.installed:
             current_site = Site.objects.get_current()
+
         else:
             current_site = None
+
         context.setdefault('site', current_site)
         brand_view = getattr(settings, 'VOICE_BRAND_VIEW', 'djangovoice_home')
         context.setdefault('brand_view', brand_view)
+
         return context
     return wrapped
 
@@ -86,9 +90,9 @@ class FeedbackListView(ListView):
 
     @current_site_context
     def get_context_data(self, **kwargs):
-        f_list = kwargs.get('list', 'open')
-        f_type = kwargs.get('type', 'all')
-        f_status= kwargs.get('status', 'all')
+        f_list = self.kwargs.get('list', 'open')
+        f_type = self.kwargs.get('type', 'all')
+        f_status= self.kwargs.get('status', 'all')
 
         title = _("Feedback")
 
