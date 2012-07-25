@@ -4,7 +4,8 @@
 {% load url from future %}
 {% load djangovoice_tags qhonuskan_votes gravatar comments %}
 
-{% block djangovoice_scripts %}
+{% block scripts %}
+  {{ block.super }}
   {% voting_script %}
 {% endblock %}
 
