@@ -1,12 +1,13 @@
-{% extends "djangovoice/feedback_base.html" %}
+{% extends "djangovoice/base.html" %}
 
 {% load url from future %}
 {% load gravatar qhonuskan_votes djangovoice_tags comments i18n %}
 
 {% block title %}{% trans "Feedback" %}{% endblock %}
 
-{% block djangovoice_scripts %}
-    {% voting_script %}
+{% block scripts %}
+  {{ block.super }}
+  {% voting_script %}
 {% endblock %}
 
 {% block actions %}
