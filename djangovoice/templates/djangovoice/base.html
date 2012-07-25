@@ -14,13 +14,17 @@
     <title>{% block title %}{% endblock %}{% block title_default %} | {% trans "DjangoVoice" %}{% endblock %}</title>
 
 	<meta name="viewport" content="width=device-width">
-    <link rel="shortcut icon" type="image/png" href="{{ STATIC_URL }}djangovoice/images/favicon.png" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}djangovoice/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="{{ STATIC_URL }}djangovoice/css/djangovoice.css" />
+    <link rel="shortcut icon" type="image/png" href="{{ STATIC_URL }}djangovoice/img/favicon.png" />
     <link rel="alternate" type="application/rss+xml" title="{% trans "Latest feedback" %}" href="{% url 'feeds_latest' %}" />
 
-	<script src="{{ STATIC_URL }}djangovoice/js/libs/modernizr-2.5.3.min.js"></script>
-    {% block script %}{% endblock %}
+    {% block styles %}
+      {# if you want to use your custom style, use `styles` block to reset default theme. #}
+      <link rel="stylesheet" href="{{ STATIC_URL }}djangovoice/css/bootstrap.min.css" />
+      <link rel="stylesheet" href="{{ STATIC_URL }}djangovoice/css/style.css" />
+      <link rel="stylesheet" href="{{ STATIC_URL }}djangovoice/css/bootstrap-responsive.min.css" />
+    {% endblock %}
+
+	<script src="{{ STATIC_URL }}djangovoice/js/libs/modernizr-2.5.3-respond-1.1.0.min.js "></script>
   </head>
 
   <body>
@@ -117,9 +121,10 @@
       </div>
     </footer>
 
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}djangovoice/js/libs/jquery-1.7.2.min.js"><\/script>')</script>
-    <script src="{{ STATIC_URL }}djangovoice/bootstrap/js/bootstrap.min.js"></script>
-    {% block djangovoice_scripts %}{% endblock %}
+    {% block scripts %}
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+      <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}djangovoice/js/libs/jquery-1.7.2.min.js"><\/script>')</script>
+      <script src="{{ STATIC_URL }}djangovoice/bootstrap/js/bootstrap.min.js"></script>
+    {% endblock %}
   </body>
 </html>

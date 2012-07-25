@@ -4,8 +4,9 @@
 
 {% block title %}{% trans "Feedback" %}{% endblock %}
 
-{% block djangovoice_scripts %}
-    {% voting_script %}
+{% block scripts %}
+  {{ block.super }}
+  {% voting_script %}
 {% endblock %}
 
 {% block actions %}
