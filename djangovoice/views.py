@@ -90,7 +90,7 @@ class FeedbackListView(ListView):
             f_filters.update(dict(private=False))
             f_showpriv = True
 
-        if f_showpriv:
+        if f_showpriv and self.request.user.is_authenticated():
             # Show everyone's public discussions and user's own private discussions
             queryset = self.model.objects.filter(Q(**f_filters) | Q(user=self.request.user, private=True)).order_by('-vote_score', '-created')
         else:
