@@ -2,6 +2,7 @@ import uuid
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.sites.models import Site
+from django.db.models import Q
 from django.http import HttpResponseNotFound
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
@@ -65,6 +66,8 @@ class FeedbackListView(ListView):
         f_type = self.kwargs.get('type', 'all')
         f_status= self.kwargs.get('status', 'all')
         f_filters = {}
+        # Tag to display also user's private discussions
+        f_showpriv = False
 
         # add filter for list value, and define title.
         if f_list in ['open', 'closed']:
@@ -82,10 +85,16 @@ class FeedbackListView(ListView):
             f_filters.update(dict(status__slug=f_status))
 
         # If user is checking his own feedback, do not filter by private
+        # for everyone's discussions but add user's private feedback
         if not self.request.user.is_staff and f_list != 'mine':
             f_filters.update(dict(private=False))
+            f_showpriv = True
 
-        queryset = self.model.objects.filter(**f_filters)
+        if f_showpriv:
+            # Show everyone's public discussions and user's own private discussions
+            queryset = self.model.objects.filter(Q(**f_filters) | Q(user=self.request.user, private=True)).order_by('-vote_score', '-created')
+        else:
+            queryset = self.model.objects.filter(**f_filters).order_by('-vote_score', '-created')
         return queryset
 
     @current_site_context
