@@ -2,6 +2,7 @@ import uuid
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.sites.models import Site
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.http import HttpResponseNotFound
 from django.shortcuts import redirect
@@ -48,9 +49,9 @@ class FeedbackDetailView(DetailView):
         if feedback.private:
             # Anonymous private feedback can be only accessed with slug
             if not request.user.is_staff and 'slug' not in kwargs and feedback.user is None:
-                return HttpResponseNotFound
+                raise PermissionDenied
             if not request.user.is_staff and request.user != feedback.user and feedback.user is not None:
-                return HttpResponseNotFound
+                raise PermissionDenied
 
         return super(FeedbackDetailView, self).get(request, *args, **kwargs)
 
@@ -187,7 +188,7 @@ class FeedbackSubmitView(FormView):
 
     def post(self, request, *args, **kwargs):
         if self.request.user.is_anonymous() and not getattr(settings, 'VOICE_ALLOW_ANONYMOUS_USER_SUBMIT', False):
-            return HttpResponseNotFound
+            raise HttpResponseNotFound
         return super(FeedbackSubmitView, self).post(request, *args, **kwargs)
 
     def get_form(self, form_class):
