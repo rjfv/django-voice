@@ -1,6 +1,5 @@
 -r requirements.txt
 
+South>=0.7.5
 docutils>=0.9.1
 ipython>=0.13
-PyYAML>=3.10
-
